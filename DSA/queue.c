@@ -20,7 +20,7 @@ int options()
 
 void display()
 {
-    if(q.front == q.rear)
+    if(q.front == q.rear+1 || q.front==-1)
     {
        printf("\nThe Queue is EMPTY\n"); 
        return ;
@@ -52,7 +52,7 @@ void enqueue()
 
 void dequeue()
 {
-    if(q.front==q.rear)
+    if(q.front==q.rear+1 || q.front==-1)
     {
         printf("Queue is Empty\n");
         return ;
@@ -63,7 +63,8 @@ void dequeue()
 
 int main()
 {
-    q.rear=q.front=-1;
+    q.rear=-1;
+    q.front=-1;
     printf("Welcome to Queue DS Operations in C\n");
 
     do
