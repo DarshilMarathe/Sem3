@@ -70,7 +70,7 @@ int main()
     }
 
     int val;
-    printf("Welcome to Linked List DS Operations\n");
+    printf("Welcome to Linear Hashing Operations\n");
 
     do
     {

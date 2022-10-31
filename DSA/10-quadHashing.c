@@ -68,7 +68,7 @@ int main()
     }
 
     int val;
-    printf("Welcome to Linked List DS Operations\n");
+    printf("Welcome to Quadratic Hashing Operations\n");
 
     do
     {
