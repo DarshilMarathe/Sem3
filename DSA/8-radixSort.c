@@ -11,10 +11,10 @@ void display(int arr[], int m)
     printf("\n");
 }
 
-int largest(int a[])
+int largest(int a[],int n)
 {
      int larger = a[0];
-     for (int i = 1; i < 10; i++)
+     for (int i = 1; i < n; i++)
     {
         if (a[i] > larger)
         {
@@ -31,7 +31,7 @@ void radix(int a[], int n)
     int bucket[10][10], bucket_count[10];
     int i, j, k, rem, NOP = 0, divisor = 1, larger, pass;
 
-    larger = largest(a);
+    larger = largest(a,n);
     while (larger > 0)
     {
         NOP++;
@@ -39,7 +39,7 @@ void radix(int a[], int n)
         
     }
 
-    for (pass = 0; pass < NOP; pass++)
+    for (pass = 0; pass < NOP; pass++)//changed NOP
     {
         for (i = 0; i < 10; i++)
         {
@@ -47,7 +47,7 @@ void radix(int a[], int n)
             
         }
 
-        for (i = 0; i < 10; i++)
+        for (i = 0; i < n; i++)
         {
             rem = (a[i] / divisor) % 10;
             bucket[rem][bucket_count[rem]] = a[i];
