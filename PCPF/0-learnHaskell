@@ -1,0 +1,327 @@
+for commenting out
+--
+
+variables
+
+let name = "Darshil"
+putStrLn(name ++ "received 32 gifts for his birthday")
+
+-- here ++ used for concatenation
+
+
+--------------------------------
+
+     putStrLn ab
+     print 36     -- only this statement is correct 
+     print ab
+     putStrLn 36 
+
+but 
+putStrLn (show 36)   --works
+putStrLn (show ab)   --wont work
+
+Here show prints the number as a string 
+
+
+similarly varialble holding numbers wont be allowed
+
+let numberOfGifts = 43
+putStrLn("he got "++ numberOfGifts ++" on his birthday from here")
+putStrLn("he got "++ show numberOfGifts ++" on his birthday from here")
+
+
+we cannot reassign variables in HASKell  ------------------------
+let name = "Darshil"
+let name = "SASASA" //nope wont work this way 
+name = "SASA"   //nope
+
+also true for number variables
+------------------------------------------------------------------------------------------------------------------------
+
+Also variables can be declared globally
+do not need let for gloabal declarartion
+
+name :: String   --type assignment, types always begin with capital in Haskell
+name = "Darshil"
+
+main = --rest of the code
+
+here, type assignment isnt mandatory..Haskell is smart enpugh to know that name is a astring 
+
+name :: Char
+name ='D'
+
+-- NOTE----
+only string data type can be used in putStrLn function
+else use show keyword to include other datatypes in it
+or use the print function
+
+----------------------------------------------
+Int String Char Double --Data types in Haskell
+-------------------------------------------------------------------------------
+
+print(5 / 6)
+--wont be 0 but 0.83333333334
+
+
+print(3^2) --is same as 3**2
+
+-------------------------------------------------------
+Built in Math function
+
+sqrt 36
+round -- round 3.6 --> 4
+		round 3.5 --> 4
+		round 2.5 --> 2
+
+floor -- floor 3.9 = floor 3.2 -->3
+ceiling -- ceiling 3.9 = `ceiling 3.2 -->4
+------------------------------------------------------------------------------------------------
+
+Getting user input
+
+name <- getLine
+age <- getLine   --   here age is String as we used getLine
+
+To convert it to Integer
+
+let ageAsNumber = read age::Int   
+
+
+eg- 
+
+main = do
+    putStrLn "Enter your age "
+    age <- getLine
+    let ageAsInteger = read age :: Int
+    
+    print (ageAsInteger+10)
+
+=========================================================================================
+
+List in HAskell
+
+eg - 
+scores :: [Int]
+scores = [19,12,42,13]
+
+
+main = do
+    print (scores !! 4) -- syntax to print the number at that index
+
+------------------------------------------------------------------------------------
+built in function for HAskell
+
+head ,will grab the first item of the list
+last,similarly
+init - grabs all except the last
+tail - all except the first
+
+scores :: [Int]
+scores = [19,12,42,13]
+
+
+main = do
+    print (scores !! 2)
+    print(head scores)
+    print(last scores)
+    print(init scores)
+    print(tail scores)
+
+------------------------------------------------------------------------------------------------
+
+Functions in HAskell
+
+
+sayHi :: IO()
+sayHi = putStrLn"Helloooooooo"
+
+
+main :: IO()
+main = do 
+    putStrLn "start"
+    sayHi
+    putStrLn "end"
+
+
+
+----------------------------
+
+sayHi :: String -> Int -> IO()
+sayHi name age  = putStrLn("Helloooooooo " ++ name ++" Age is "++ show age)
+
+
+main :: IO()
+main = do 
+    putStrLn "start"
+    sayHi "Darshil" 100
+    putStrLn "end"
+
+============================================================================
+Return type in HAskell
+
+
+cube :: Int -> Int
+cube num = num*num*num
+
+sayHi :: String  -> String 
+sayHi name = "Hello "++name
+
+main :: IO()
+main = do
+    let result = cube 3
+    print result
+     --OR
+    print (cube 3)
+    
+    putStrLn(sayHi  "Darshil")
+    --OR
+    let welcome = sayHi "Darshil"
+    putStrLn welcome
+
+
+=================================================================
+
+If else
+--use 'then' in HAskell 
+
+
+mood :: String -> IO()
+mood weather = do
+    if weather =="sunny"
+    then putStrLn "Good to go!!"
+    else if weather =="Cloudy"
+    then putStrLn "Good to go000000000000000!!"
+    else putStrLn "Sleep"
+
+main :: IO()
+main = do 
+    mood "snny"
+
+===========================================================================
+using && and ||
+
+
+work :: String -> Bool ->IO()
+work weather isRainning =do
+    if weather =="cloudy" && isRainning
+    then putStrLn "SLEEP"
+    else putStrLn "go to work"
+
+main :: IO()
+main = do
+    let isRaining = True
+    work "cloudy" isRaining
+    
+
+--Here T in true must be capital
+
+Similarly or can be performed
+==================================================================================
+
+
+Case Statements in Haskell
+Here use _  for default statement
+
+main = do 
+    let grade ='d'
+    
+    case grade  of 
+        'D' -> putStrLn "Almost passed"
+        'A' -> putStrLn "Congrats"
+        'B' -> putStrLn "Good"
+        'C' -> putStrLn "Can Improve"
+        _ -> putStrLn "Fails"
+
+
+===============================================================================
+Records in Haskell
+
+can store multiple data types unlike array
+Use deriving Show --helps in printing the data
+
+
+
+
+data Student  = Student {  name :: String
+                          , age :: Int
+                          , major :: String
+                          ,gpa :: Double
+                        } deriving Show
+                        
+main = do
+    let student1 = Student{ name ="Darshil" , age =100 , major = "IT" , gpa = 10}
+    print student1
+    print (gpa student1)-- will work even withour deriving SHow
+
+=========================================================================================
+Loops in Haskell
+
+
+printto100 :: Int -> IO()
+printto100 num = do
+    if  num<=100 
+    then do 
+        print num
+        printto100 (num+1)
+    else putStrLn "Done"
+
+
+main :: IO()
+main = do 
+    printto100 1
+
+
+---------------------------------------
+
+student :: [String]
+student =["Darshil" , "Darsh" , "ABD" , "ZXC"]
+
+printstudents num = do
+    if num <=3 
+    then do 
+        print(student !! num)
+        printstudents (num+1)
+    else putStrLn "Done"
+
+main :: IO()
+main = do 
+    printstudents 0
+
+=============================================================================================
+Mini game
+
+
+guessgame :: IO()
+guessgame = do
+        let secret = "4"
+        putStrLn "Enter a Number between 1 to 10"
+        num <-getLine
+        if num==secret
+        then putStrLn  " You win"
+        else guessgame
+
+main :: IO()
+main = do
+    guessgame 
+
+
+----
+guessgame ::Int -> IO()
+guessgame count= do
+        if count<3
+        then do
+            let secret = "4"
+            putStrLn "Enter a Number between 1 to 10"
+            num <-getLine
+            if num==secret
+            then putStrLn  " You win"
+            else guessgame (count+1)
+        else putStrLn "Total chances exceded"
+        
+        
+main :: IO()
+main = do
+    guessgame 0
+
+    
