@@ -1,0 +1,406 @@
+CRUD Operations
+MySQL is RDMS/software which uses SQL lang
+Similarly MSSQL , Oracle,IBM
+
+MYSQL - Opensource  RDBMS
+
+SQL- Query Language to Perform CRUD 
+	Way to access data
+MySQL - is A RDBMS
+	CRUD done on it using SQL
+
+community server
+workbench
+
+
+--------------------------------------------------------
+Datatypes in SQl
+DIFFERENCE IN CHAR AND VARCHAR
+CHAR - MEMORY AS ARRAY
+VARCHAR - ON NEED BASES
+
+
+BLOB - stores audio  video filews in bytes
+Boolean  - 1/0 -- but internally it is implemented as tiny int 
+--------------------------------------------------------
+Signed and Unsigned
+TINY -  -128 to 127
+UNSIGNED TINYINY - 0 to 255
+
+
+ADV Datatypes
+-JSON - Javascript Object Notation - when we want to store key value in pairs
+
+--------------------------------------------------------
+SQL Types of commands
+
+1- DDL
+CREATE
+ALTER TABLE - changes data type of or add remove columns
+DROP
+TRUNCATE - remove tuples -rows
+RENAME
+
+2-DRL/DQL(Dara retrieval or query lang)
+SELECT
+
+3- DML
+INSERT
+UPDATE
+DELETE
+REPLACE
+
+4- DCL -authorisation
+GRANT
+REVOKE
+
+5-TCL
+START TRANSACTION
+COMMIT
+ROLLBACK
+SAVEPOINT
+
+---------------------------------------------------------
+CREATE DATABSE  IF NOT EXISTS db-name;
+Good  practice
+ 
+DROP DATABASE IF EXISTS db-name;
+--------------------------------------------------------
+DQL
+
+SELECT <set of columns> FROM <table_name>;
+
+Order of execution - Right to Left
+
+Can use without FROM clause?
+Yes- dual table - dummy tables made by sql
+SELECT 55+11;
+SELECT now();
+SELECT ucase('darsh');
+SELECT Lcase('DARsh');
+etc
+
+
+WHERE clause
+- Based on condition
+- Reduce rows based on that condition
+SELECT * FROM worker WHERE salary>80000;
+....WHERE DEPARTMENT = 'HR';
+
+BETWEEN Clause
+SELECT * FROM worker WHERE age BETWEEN 0 AND 100;
+0 and 100 aare inclusive 
+SELECT * FROM worker WHERE salary BETWEEN 80000 AND 300000;
+
+IN
+-Reduces OR conditions
+SELECT * FROM worker WHERE department= 'HR' OR department ='Admin' OR department = 'Account';  ; 
+SELECT * FROM worker WHERE department IN ('HR','Admin','Account');
+
+AND/OR/NOT
+SELECT * FROM worker WHERE department NOT IN ('HR','Admin');
+
+IS NULL
+SELECT * FROM customer WHERE pincode IS NULL;
+
+
+Pattern Searching / WildCard
+% , _
+% - any number of caharacters from 0 to n
+_ - only one character
+
+SELECT * FROM customer WHERE name LIKE '%p_';
+second last letter p
+LIKE '%pa%' -> abcpadc , pabc
+LIKE '_pa_' -> dpab , apaa,etc
+
+LIKE '_i%' -> i on second number
+---------------------------------------------------------
+
+Sorting
+ASC(Default)
+ORDER BY
+SELECT * FROM worker ORDER BY salary;
+SELECT * FROM worker ORDER BY salary DESC;
+------------------------------------------------------
+
+Distinct Values
+
+SELECT department FROM worker; - corresponding rows ke sab aayenge
+SELECT DISTINCT department FROM worker;
+- HR
+  ADMIN
+  Account
+----------------------------------------------------------
+
+Data Grouping
+
+-find number of emplyees working in different department 
+GROUP BY - used with addregation functions
+aggregation - COUNT SUM MIN MAX 
+
+SELECT department FROM worker GROUP BY department;
+Nomenclature  - whatever in select and from comes after group by
+- gives same output as distinct
+
+sql treats group by without any aggregation as distinct
+
+SELECT department ,COUNT(department) from worker GROUP BY department;
+- department - count table is the output
+
+
+SELECT department , AVG(salary) from worker group by department;
+
+SELECT department , MIN(salary) from worker group by department;
+per department min salary
+
+SUM(salary)
+------------------------------------------------------------------------
+GROUP BY HAVING
+HAVING
+
+- SELECT - WHERE
+- GROUP BY - having
+Similar to where
+
+department having more than 2 workers
+
+SELELCT department , COUNT(department) from worker GROUP BY department HAVING COUNT(department)>2;
+
+-WHERE and Having
+Where ke sath COUNT use nahi kar sakte as it can be used with only GROUP BY
+WHERE - table se specified condition
+	-used before GROUP BY
+Having- groups pe specified condition
+	-used after GROUP BY
+	-GROUP BY is necessary
+
+WHere can abe used with select update and delete
+GROUP BY used with SELECT
+--------------------------------------------------------------------------
+
+DDL - Constraints
+-PRIMARY KEY -Not NULL and unique key , only one per table
+
+id int primaary key,
+
+or in the end
+PRIMARY KEY (id)
+
+-Foreign Key 
+  refers primary key of other tables
+FOREIGN KEY(cust_ID) REFERENCES customer(id)
+
+-UNIQUE
+	name VARCHAR(255) UNIQUE,
+
+-CHECK
+	CREATE TABLE account(
+	.
+	balance int ,
+	CONSTRAINT acc_balance_chk CHECK (balance>1000),
+	.
+	);
+During insert the balance has to be > 1000 or else it woont be inserted
+
+-DEFAULT
+   	CREATE TABLE account(
+	.
+	balance INT NOT NULL DEFAULT 0,
+	.
+	);
+------------------------------------------------------------------
+An attribute can be primary key and foreign Key both.
+------------------------------------------------------------------
+ALTER OPERATIONS
+daataypes ke baad constraints can be written below
+
+1.ADD
+	add new column
+ ALTER TABLE customer ADD newColName datatype;
+
+2.MODIFY
+	Change datatype
+ ALTER TABLE customer MODIFY ColName datatype;
+
+3.Change COLUMN - rename column
+ ALTER TABLE customer CHANGE COLUMN OldColName newColName newcColdatatype;
+
+4.DROP COLUMN
+ ALTER TABLE customer DROP COLUMN column_name;
+
+5.RENAME TO
+	rename the table itself
+ALTER TABLE customer RENAME TO new_table_name;
+-----------------------------------------------------------------------------
+
+DML 
+
+1.INSERT 
+INSERT INTO customer (id,...,pincode) VALUES(dfdsfdf),(sfadf);
+INSERT INTO customer (1,'codehelp','',11001);
+
+2.UPDATE
+UPDATE customer SET Address = 'NUMBAI' , GENDER ='M' where id =121;
+
+--Updating multiple rows
+SET SQL_SAAFE_UPDATES=0; --sql wont let you update all the rows data here
+UPDATE customer SET pincode = 110011;
+UPDATE customer SET age = age +1;
+SET SQL_SAFE_UPDATES =1;
+
+3.DELETE
+DELETE FROM customer WHERE id =121;
+DELETE FROM customer; --deletes all records
+
+------
+REferential constraint(CHILD PARENT)
+INSERT
+DELETE
+	ON DELETE CASCADE
+	ON DELETE SET NULL
+--IF DELETING FROM PARENT TABLE THEN CHILD TABLE ME DELETE OR SET NULL(foreign key)
+So foreign key can have null value
+
+
+during create table
+FOREIGN KEY (cust_id) references customer(id) ON DELETE CASCADE
+									  SET NULL
+
+--------------
+
+4.REPLACE
+a.Data already present 
+b.not present - behaves like INSERT
+
+REPLACE INTO customer (id,city) VALUES (1251,'Colony');
+-primary key dena is necessary
+-results in name and other columns as null
+
+REPLACE INTO customer SET id=1300 ,name='darsh' , city = 'Mumbai';
+-
+
+REPLACE INTO customer (id,name,city) 
+	SELECT id,name, city 
+	FFROM customer WHERE id = 500;
+
+here----not much usesfull
+
+-----------------------------------------------------------------------------------------------
+
+REPLACCE and UPDATE
+-if row is not present replace willa dd a row whereas update wont
+-----------------------------------------------------------------------------------------------
+
+JOINS
+-there should be a common attribut in both tables
+-refering one table from other
+FK- Relations -data fetch
+
+LOOK IN PDF
+1.INNER JOIN
+ - KEY jo match honge
+	Will be the resultant table containing all the columns in both
+SELECT 
+
+2.OUTER JOIN
+a.left
+b.RIGHT
+c.FULL JOIN --sql doesnt has such key word 
+		Therefore left and right ka union
+	Left join Syntax 
+	UNIOUN
+	Right join Synstax
+3.CROSS JOIN
+- Cartesian Product
+	Possible matches
+	n*m rows
+
+4.Self Join
+- unary relation
+- no operator for this
+ emulated  - INNER JOIN and ALIAS 'AS'
+
+SELECT e1.id,e2.id,e2.name 
+FROM employee as e1
+INNER JOIN
+	employee as e2
+ON e1.id=e2.id;
+
+
+-------------------------------------------------------------------
+Can we use join without using inner join
+-Yes
+Synntax -change  Join - , and ON - where
+SELECT * FROM lefttable,righttable WHERE lefttable.id = righttable.id;
+
+-------------------------------------------------------------------
+
+SET OPERATIONS
+
+
+-SET - List of unique elements
+
+1.Union
+2.Intersection
+3.Minus
+
+1.Unioun
+Same type columns and same number only then possible
+-Rowwise unioun
+
+SELECT * FROM TABLE1
+UNION
+SELECT * FROM TABLE2;
+
+-Combines 2 or more select statements
+
+
+2.Intersection
+emulated using innerjoin
+SELECT DISTINCT id FROM T1
+INNER JOIN T2 USING (id);
+
+
+3.Minus
+emulate 
+SELECT id FROM t1 
+LEFT JOIN t2 USING(id)
+WHERE T2.id IS NULL;
+
+-----------------------------------------------------------------------------------------
+Sub Queries
+-alternative to joins
+generally outer query depends on inner query
+
+SELECT * FROM table WHERE id IN (SELECT * FROM table WHERE name='darsh');
+
+- IN because you are getting a set from inner query
+
+1.WhERE clause
+2.FROM clause
+3.Select clause
+
+-----------------------
+Correlated Subquery
+inner query that refers the outer query
+
+3rd oldest employee in the table
+SELECT * FROM employee e1
+WHERE 3= (
+	SELECT COUNT(e2.age)
+	FROM employee e2
+	WHERE e2.age >=e1.age);
+
+----------------------------------------------------------------------------------------------------
+VIEWS
+
+CREATE VIEW custom_view AS SELECT fname,age FROM employee;
+
+SELECT * FROM custom_view;
+
+ALTER VIEW custom_view AS SELECT fname,lname,age FROM employee;
+
+DROP VIEW IF EXISTS custom_view;
+----------------------------------------------------------------------------------------------------
+
